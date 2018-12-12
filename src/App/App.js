@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 import connection from '../helpers/data/connection';
 import Auth from '../components/auth/auth';
 import Listings from '../components/listings/listings';
@@ -13,6 +16,21 @@ class App extends Component {
 
   componentDidMount() {
     connection();
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          authed: true,
+        });
+      } else {
+        this.setState({
+          authed: false,
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeListener();
   }
 
   isAuthenticated = () => {
