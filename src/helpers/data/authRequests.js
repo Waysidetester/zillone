@@ -8,6 +8,6 @@ const authenticate = () => {
 
 const logoutUser = () => {
   firebase.auth().signOut();
-}
+};
 
 export default { authenticate, logoutUser };
