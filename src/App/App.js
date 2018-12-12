@@ -4,6 +4,7 @@ import Auth from '../components/auth/auth';
 import Listings from '../components/listings/listings';
 import MyNavbar from '../components/navbar/myNavbar';
 import './App.scss';
+import authRequests from '../helpers/data/authRequests';
 
 class App extends Component {
   state = {
@@ -18,18 +19,24 @@ class App extends Component {
     this.setState({ authed: true });
   };
 
+
   render() {
+    const logoutClickEvent = () => {
+      authRequests.logoutUser();
+      this.setState({ authed: false });
+    };
+
     if (!this.state.authed) {
       return (
         <div className="App">
-          <MyNavbar />
+          <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent}/>
           <Auth isAuthenticated={this.isAuthenticated}/>
         </div>
       );
     }
     return (
       <div className="App">
-        <MyNavbar />
+        <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent}/>
         <Listings />
       </div>
     );
