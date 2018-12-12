@@ -4,7 +4,6 @@ import Auth from '../components/auth/auth';
 import './App.scss';
 
 class App extends Component {
-
   componentDidMount() {
     connection();
   }
