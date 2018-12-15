@@ -18,4 +18,6 @@ const getListings = () => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-export default { getListings };
+const deleteListing = listingId => axios.delete(`${baseUrl}/listings/${listingId}.json`);
+
+export default { getListings, deleteListing };
