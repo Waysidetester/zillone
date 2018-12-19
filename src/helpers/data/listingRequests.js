@@ -20,4 +20,6 @@ const getListings = () => new Promise((resolve, reject) => {
 
 const deleteListing = listingId => axios.delete(`${baseUrl}/listings/${listingId}.json`);
 
-export default { getListings, deleteListing };
+const postRequest = listing => axios.post(`${baseUrl}/listings.json`, listing);
+
+export default { getListings, deleteListing, postRequest };
