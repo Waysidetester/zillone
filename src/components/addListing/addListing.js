@@ -64,10 +64,16 @@ class AddListing extends React.Component {
   render() {
     const { newListing } = this.state;
 
+    const title = () => {
+      if (this.props.isEditing) {
+        return <h2>Edit Listing</h2>;
+      }
+      return <h2>Add New Listing</h2>;
+    };
 
     return (
       <div className="add-listing col">
-        <h2>Add Listing</h2>
+        {title()}
         <form onSubmit={this.formSubmit}>
           <div className="form-group">
             <label htmlFor="address">Address:</label>
