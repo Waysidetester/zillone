@@ -59,6 +59,18 @@ class App extends Component {
       });
   }
 
+  formSubmitEvent = (newListing) => {
+    console.log(newListing);
+    listingRequests.postRequest(newListing)
+      .then(() => {
+        listingRequests.getListings()
+          .then((listings) => {
+            this.setState({ listings });
+          });
+      })
+      .catch(err => console.error(err));
+  }
+
   render() {
     const logoutClickEvent = () => {
       authRequests.logoutUser();
@@ -86,7 +98,9 @@ class App extends Component {
           <Building />
         </div>
         <div className="row">
-          <AddListing />
+          <AddListing
+          onSubmit={this.formSubmitEvent}
+          />
         </div>
       </div>
     );

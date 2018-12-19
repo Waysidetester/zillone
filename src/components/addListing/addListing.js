@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import authRequest from '../../helpers/data/authRequests';
 import './addListing.scss';
 
 const defaultListing = {
@@ -14,6 +16,10 @@ const defaultListing = {
 };
 
 class AddListing extends React.Component {
+  static propTypes = {
+    onSubmit: PropTypes.func,
+  }
+
   state = {
     newListing: defaultListing,
   }
@@ -33,6 +39,15 @@ class AddListing extends React.Component {
 
   addressChange = e => this.formFieldStringState('address', e);
 
+  formSubmit = (e) => {
+    e.preventDefault();
+    const { onSubmit } = this.props;
+    const myListing = { ...this.state.newListing };
+    myListing.uid = authRequest.user();
+    onSubmit(myListing);
+    this.setState({ newListing: defaultListing });
+  }
+
   render() {
     const { newListing } = this.state;
 
@@ -40,7 +55,7 @@ class AddListing extends React.Component {
     return (
       <div className="add-listing col">
         <h2>Add Listing</h2>
-        <form>
+        <form onSubmit={this.formSubmit}>
           <div className="form-group">
             <label htmlFor="address">Address:</label>
             <input
