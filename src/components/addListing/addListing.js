@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import authRequest from '../../helpers/data/authRequests';
 import './addListing.scss';
+import listingRequests from '../../helpers/data/listingRequests';
 
 const defaultListing = {
   address: '',
@@ -18,6 +19,8 @@ const defaultListing = {
 class AddListing extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
+    isEditing: PropTypes.bool,
+    editId: PropTypes.string,
   }
 
   state = {
@@ -48,13 +51,29 @@ class AddListing extends React.Component {
     this.setState({ newListing: defaultListing });
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props && this.props.isEditing) {
+      listingRequests.getSingleListing(this.props.editId)
+        .then((listing) => {
+          this.setState({ newListing: listing.data });
+        })
+        .catch(err => console.error(err));
+    }
+  }
+
   render() {
     const { newListing } = this.state;
 
+    const title = () => {
+      if (this.props.isEditing) {
+        return <h2>Edit Listing</h2>;
+      }
+      return <h2>Add New Listing</h2>;
+    };
 
     return (
       <div className="add-listing col">
-        <h2>Add Listing</h2>
+        {title()}
         <form onSubmit={this.formSubmit}>
           <div className="form-group">
             <label htmlFor="address">Address:</label>

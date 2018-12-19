@@ -22,4 +22,14 @@ const deleteListing = listingId => axios.delete(`${baseUrl}/listings/${listingId
 
 const postRequest = listing => axios.post(`${baseUrl}/listings.json`, listing);
 
-export default { getListings, deleteListing, postRequest };
+const getSingleListing = listingId => axios.get(`${baseUrl}/listings/${listingId}.json`);
+
+const putRequest = (listingId, listing) => axios.put(`${baseUrl}/listings/${listingId}.json`, listing);
+
+export default {
+  getListings,
+  deleteListing,
+  postRequest,
+  getSingleListing,
+  putRequest,
+};
