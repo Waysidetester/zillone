@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import authRequest from '../../helpers/data/authRequests';
 import './addListing.scss';
+import listingRequests from '../../helpers/data/listingRequests';
 
 const defaultListing = {
   address: '',
@@ -18,6 +19,8 @@ const defaultListing = {
 class AddListing extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
+    isEditing: PropTypes.bool,
+    editId: PropTypes.string,
   }
 
   state = {
@@ -46,6 +49,16 @@ class AddListing extends React.Component {
     myListing.uid = authRequest.user();
     onSubmit(myListing);
     this.setState({ newListing: defaultListing });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props && this.props.isEditing) {
+      listingRequests.getSingleListing(this.props.editId)
+        .then((listing) => {
+          this.setState({ newListing: listing.data });
+        })
+        .catch(err => console.error(err));
+    }
   }
 
   render() {

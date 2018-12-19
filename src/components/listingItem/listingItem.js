@@ -17,6 +17,12 @@ class ListingItem extends React.Component {
     deleteSingleListing(listing.id);
   }
 
+  editEvent = (e) => {
+    const { passListingToEdit, listing } = this.props;
+    e.preventDefault();
+    passListingToEdit(listing.id);
+  }
+
   render() {
     const { listing } = this.props;
     const uid = authRequest.user();
@@ -25,6 +31,11 @@ class ListingItem extends React.Component {
       if (listing.uid === uid) {
         return (
         <div>
+          <span className="col">
+            <button className="btn btn-default" onClick={this.editEvent}>
+              <i className="fas fa-pencil-alt"></i>
+            </button>
+          </span>
           <span className="col">
             <button className="btn btn-default" onClick={this.deleteEvent}>
               <i className="fas fa-trash-alt"></i>

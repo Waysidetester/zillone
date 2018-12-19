@@ -17,6 +17,8 @@ class App extends Component {
   state = {
     authed: false,
     listings: [],
+    isEditing: false,
+    editId: '-1',
   };
 
   componentDidMount() {
@@ -71,6 +73,8 @@ class App extends Component {
       .catch(err => console.error(err));
   }
 
+  passListingToEdit = (listingId) => this.setState({ isEditing: true, editId: listingId });
+
   render() {
     const logoutClickEvent = () => {
       authRequests.logoutUser();
@@ -94,12 +98,15 @@ class App extends Component {
           <Listings
             listings={this.state.listings}
             deleteSingleListing={this.deleteOne}
+            passListingToEdit={this.passListingToEdit}
           />
           <Building />
         </div>
         <div className="row">
           <AddListing
           onSubmit={this.formSubmitEvent}
+          isEditing={this.state.isEditing}
+          editId={this.state.editId}
           />
         </div>
       </div>
